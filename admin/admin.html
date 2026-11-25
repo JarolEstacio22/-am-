@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#251B45" />
+  <title>Chuaz Admin | Panel de control</title>
+  <link rel="stylesheet" href="../css/admin.css" />
+</head>
+<body data-page="admin">
+
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-head">
+      <a href="admin.html" class="logo">
+        <span class="logo-mark">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M3 11l9-8 9 8"/><path d="M5 10v10a1 1 0 0 0 1 1h4v-6h4v6h4a1 1 0 0 0 1-1V10"/>
+          </svg>
+        </span>
+        <span class="logo-text">
+          <b>Chuaz<span class="logo-dot">.</span></b>
+          <small>Admin</small>
+        </span>
+      </a>
+      <button class="icon-btn sidebar-close" id="sidebarClose" aria-label="Cerrar menú">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+
+    <nav class="side-nav" aria-label="Secciones del panel">
+      <a href="#" class="side-link active" data-section="resumen">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+        Resumen
+      </a>
+
+      <div class="side-group">
+        <span class="side-group-title">Operación</span>
+        <a href="#" class="side-link" data-section="negocios">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l1.5-5h15L21 9"/><path d="M3 9v11a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1V9"/><path d="M9 22V12h6v10"/></svg>
+          Negocios<span class="side-badge" id="badgeBiz">0</span>
+        </a>
+        <a href="#" class="side-link" data-section="repartidores">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="5.5" cy="17.5" r="3.5"/><circle cx="18.5" cy="17.5" r="3.5"/><path d="M12 17.5V14l-3-3 4-3 2 3h2"/></svg>
+          Repartidores<span class="side-badge" id="badgeRiders">0</span>
+        </a>
+        <a href="#" class="side-link" data-section="pedidos">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+          Pedidos
+        </a>
+        <a href="#" class="side-link" data-section="usuarios">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          Usuarios
+        </a>
+      </div>
+
+      <div class="side-group">
+        <span class="side-group-title">Gestión</span>
+        <a href="#" class="side-link" data-section="promociones">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
+          Promociones
+        </a>
+        <a href="#" class="side-link" data-section="finanzas">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+          Finanzas
+        </a>
+        <a href="#" class="side-link" data-section="configuracion">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09a1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09a1.65 1.65 0 0 0 1.51-1 1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+          Configuración
+        </a>
+      </div>
+    </nav>
+
+    <div class="side-foot">
+      <a href="../index.html" class="side-exit">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+        Ir a la tienda
+      </a>
+    </div>
+  </aside>
+
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+  <div class="main-wrap">
+    <header class="topbar">
+      <button class="icon-btn menu-toggle" id="menuToggle" aria-label="Abrir menú">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+      <div class="topbar-title">
+        <h1 id="pageTitle">Resumen</h1>
+        <p id="pageSubtitle">Vista global de la operación</p>
+      </div>
+      <div class="topbar-actions">
+        <button class="icon-btn notif-btn" id="notifBtn" aria-label="Notificaciones">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+          <span class="notif-dot" id="notifDot"></span>
+        </button>
+        <div class="topbar-user">
+          <div class="avatar">AD</div>
+          <div class="user-info"><strong>Admin Chuaz</strong><span>Super administrador</span></div>
+        </div>
+      </div>
+    </header>
+
+    <div class="notif-panel" id="notifPanel">
+      <div class="notif-head"><strong>Notificaciones</strong><button id="notifClear">Marcar leídas</button></div>
+      <div id="notifList"></div>
+    </div>
+
+    <main class="content">
+      <!-- RESUMEN -->
+      <section class="section active" id="section-resumen">
+        <div class="kpi-grid">
+          <div class="kpi-card">
+            <div class="kpi-icon purple">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l1.5-5h15L21 9"/><path d="M3 9v11a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1V9"/><path d="M9 22V12h6v10"/></svg>
+            </div>
+            <div class="kpi-info"><span>Negocios activos</span><strong id="kpiBizActive">0</strong><small id="kpiBizPending">0 pendientes</small></div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-icon green">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="5.5" cy="17.5" r="3.5"/><circle cx="18.5" cy="17.5" r="3.5"/><path d="M12 17.5V14l-3-3 4-3 2 3h2"/></svg>
+            </div>
+            <div class="kpi-info"><span>Repartidores activos</span><strong id="kpiRidersActive">0</strong><small id="kpiRidersPending">0 por aprobar</small></div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-icon gold">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+            </div>
+            <div class="kpi-info"><span>Pedidos hoy</span><strong id="kpiOrders">0</strong><small id="kpiOrdersActive">0 en curso</small></div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-icon blue">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+            </div>
+            <div class="kpi-info"><span>GMV hoy</span><strong id="kpiGMV">$0</strong><small class="up" id="kpiGMVTrend">+0% vs ayer</small></div>
+          </div>
+        </div>
+
+        <div class="resumen-grid">
+          <div class="panel-card">
+            <div class="panel-card-head"><h2>Ventas de la semana</h2><span class="panel-chip">Últimos 7 días</span></div>
+            <div class="chart" id="salesChart"></div>
+            <div class="chart-legend"><span><i class="dot purple"></i> GMV</span><span><i class="dot light"></i> Comisión</span></div>
+          </div>
+          <div class="panel-card">
+            <div class="panel-card-head"><h2>Solicitudes pendientes</h2><a href="#" class="panel-link" data-section="negocios">Ver todo</a></div>
+            <div class="pending-list" id="pendingList"></div>
+          </div>
+        </div>
+
+        <div class="panel-card">
+          <div class="panel-card-head"><h2>Pedidos recientes</h2><a href="#" class="panel-link" data-section="pedidos">Ver todos</a></div>
+          <div class="table-wrap">
+            <table class="data-table">
+              <thead><tr><th>Pedido</th><th>Negocio</th><th>Cliente</th><th>Total</th><th>Estado</th><th></th></tr></thead>
+              <tbody id="recentOrders"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- NEGOCIOS -->
+      <section class="section" id="section-negocios">
+        <div class="section-actions">
+          <div class="filters">
+            <button class="filter-chip active" data-biz-filter="all">Todos</button>
+            <button class="filter-chip" data-biz-filter="pending">Pendientes</button>
+            <button class="filter-chip" data-biz-filter="active">Activos</button>
+            <button class="filter-chip" data-biz-filter="suspended">Suspendidos</button>
+          </div>
+          <button class="btn btn-primary" id="btnAddBiz">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            Registrar negocio
+          </button>
+        </div>
+        <div class="filters search-filters">
+          <div class="search-input-wrap">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <input type="text" id="bizSearch" placeholder="Buscar negocio por nombre o dirección..." />
+          </div>
+        </div>
+        <div class="biz-grid" id="bizGrid"></div>
+      </section>
+
+      <!-- REPARTIDORES -->
+      <section class="section" id="section-repartidores">
+        <div class="section-actions">
+          <div class="filters">
+            <button class="filter-chip active" data-rider-filter="all">Todos</button>
+            <button class="filter-chip" data-rider-filter="pending">Por aprobar</button>
+            <button class="filter-chip" data-rider-filter="active">Activos</button>
+            <button class="filter-chip" data-rider-filter="suspended">Suspendidos</button>
+          </div>
+          <button class="btn btn-primary" id="btnAddRider">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            Registrar repartidor
+          </button>
+        </div>
+        <div class="filters search-filters">
+          <div class="search-input-wrap">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <input type="text" id="riderSearch" placeholder="Buscar repartidor por nombre o teléfono..." />
+          </div>
+        </div>
+        <div class="rider-list" id="riderList"></div>
+      </section>
+
+      <!-- PEDIDOS -->
+      <section class="section" id="section-pedidos">
+        <div class="filters">
+          <button class="filter-chip active" data-order-filter="all">Todos</button>
+          <button class="filter-chip" data-order-filter="nuevo">Nuevos</button>
+          <button class="filter-chip" data-order-filter="preparando">Preparando</button>
+          <button class="filter-chip" data-order-filter="camino">En camino</button>
+          <button class="filter-chip" data-order-filter="entregado">Entregados</button>
+          <button class="filter-chip" data-order-filter="cancelado">Cancelados</button>
+        </div>
+        <div class="panel-card">
+          <div class="table-wrap">
+            <table class="data-table">
+              <thead><tr><th>Pedido</th><th>Negocio</th><th>Cliente</th><th>Repartidor</th><th>Total</th><th>Estado</th></tr></thead>
+              <tbody id="ordersTable"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- USUARIOS -->
+      <section class="section" id="section-usuarios">
+        <div class="filters search-filters">
+          <div class="search-input-wrap">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <input type="text" id="userSearch" placeholder="Buscar usuario por nombre o email..." />
+          </div>
+        </div>
+        <div class="panel-card">
+          <div class="table-wrap">
+            <table class="data-table">
+              <thead><tr><th>Usuario</th><th>Email</th><th>Teléfono</th><th>Pedidos</th><th>Estado</th><th></th></tr></thead>
+              <tbody id="usersTable"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- PROMOCIONES -->
+      <section class="section" id="section-promociones">
+        <div class="section-actions">
+          <p class="section-hint">Promociones globales visibles en toda la app.</p>
+          <button class="btn btn-primary" id="btnAddPromoGlobal">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            Nueva promoción
+          </button>
+        </div>
+        <div class="promos-grid" id="promosGrid"></div>
+      </section>
+
+      <!-- FINANZAS -->
+      <section class="section" id="section-finanzas">
+        <div class="fin-grid">
+          <div class="panel-card">
+            <div class="panel-card-head"><h2>GMV del mes</h2></div>
+            <strong class="fin-big" id="finGMV">$0</strong>
+            <span class="fin-trend up">+12.4% vs mes anterior</span>
+          </div>
+          <div class="panel-card">
+            <div class="panel-card-head"><h2>Comisión Chuaz</h2></div>
+            <strong class="fin-big" id="finCommission">$0</strong>
+            <span class="fin-trend">12% del GMV</span>
+          </div>
+          <div class="panel-card">
+            <div class="panel-card-head"><h2>Pagos a repartidores</h2></div>
+            <strong class="fin-big" id="finRiderPayments">$0</strong>
+            <span class="fin-trend">Pendientes de liquidar</span>
+          </div>
+        </div>
+        <div class="panel-card">
+          <div class="panel-card-head"><h2>Últimas transacciones</h2></div>
+          <div class="table-wrap">
+            <table class="data-table">
+              <thead><tr><th>Fecha</th><th>Pedido</th><th>Monto</th><th>Comisión</th><th>Estado</th></tr></thead>
+              <tbody id="transactionsTable"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- CONFIGURACIÓN -->
+      <section class="section" id="section-configuracion">
+        <form class="config-form" id="configForm">
+          <div class="panel-card">
+            <div class="panel-card-head"><h2>Comisiones y tarifas</h2></div>
+            <div class="form-grid">
+              <label class="field"><span>Comisión por pedido (%)</span><input type="number" id="cfgCommission" value="12" min="0" max="50" /></label>
+              <label class="field"><span>Tarifa base de envío</span><input type="number" id="cfgBaseDelivery" value="2500" min="0" /></label>
+              <label class="field"><span>Pago base al repartidor</span><input type="number" id="cfgRiderBase" value="6500" min="0" /></label>
+              <label class="field"><span>Pago por km recorrido</span><input type="number" id="cfgRiderPerKm" value="800" min="0" /></label>
+            </div>
+          </div>
+          <div class="panel-card">
+            <div class="panel-card-head"><h2>Disponibilidad de la plataforma</h2></div>
+            <div class="toggle-row">
+              <label class="toggle"><input type="checkbox" id="cfgPlatformOpen" checked /><span class="toggle-track"></span><span>Plataforma abierta</span></label>
+              <label class="toggle"><input type="checkbox" id="cfgAutoApproveBiz" /><span class="toggle-track"></span><span>Aprobar negocios automáticamente</span></label>
+              <label class="toggle"><input type="checkbox" id="cfgAutoApproveRider" /><span class="toggle-track"></span><span>Aprobar repartidores automáticamente</span></label>
+            </div>
+          </div>
+          <div class="panel-card">
+            <div class="panel-card-head"><h2>Mensajes y soporte</h2></div>
+            <div class="form-grid">
+              <label class="field full"><span>Mensaje en la app</span><input type="text" id="cfgAppMessage" value="¡Bienvenido a Chuaz! Pide lo que necesites hoy." /></label>
+              <label class="field"><span>Email de soporte</span><input type="email" id="cfgSupportEmail" value="soporte@chuaz.com" /></label>
+              <label class="field"><span>Teléfono de soporte</span><input type="tel" id="cfgSupportPhone" value="+57 601 555 0000" /></label>
+            </div>
+          </div>
+          <div class="form-actions">
+            <button type="button" class="btn btn-ghost" id="configReset">Cancelar</button>
+            <button type="submit" class="btn btn-primary">Guardar configuración</button>
+          </div>
+        </form>
+      </section>
+    </main>
+  </div>
+
+  <!-- MODAL NEGOCIO -->
+  <div class="modal" id="bizModal">
+    <div class="modal-overlay" data-close="bizModal"></div>
+    <div class="modal-panel">
+      <div class="modal-head">
+        <h2 id="bizModalTitle">Registrar negocio</h2>
+        <button class="icon-btn" data-close="bizModal" aria-label="Cerrar">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form id="bizForm" class="form-grid">
+          <input type="hidden" id="bizId" />
+          <label class="field full"><span>Nombre del negocio</span><input type="text" id="bizName" required /></label>
+          <label class="field"><span>Categoría</span>
+            <select id="bizCategory">
+              <option value="pizza">Pizza</option><option value="burgers">Hamburguesas</option>
+              <option value="sushi">Sushi</option><option value="healthy">Saludable</option>
+              <option value="desserts">Postres</option><option value="drinks">Bebidas</option>
+              <option value="pharmacy">Farmacia</option><option value="tech">Tecnología</option>
+              <option value="store">Tiendas</option><option value="pets">Mascotas</option>
+              <option value="liquor">Licores</option><option value="beauty">Belleza</option>
+            </select>
+          </label>
+          <label class="field"><span>Teléfono</span><input type="tel" id="bizPhone" /></label>
+          <label class="field"><span>Email</span><input type="email" id="bizEmail" /></label>
+          <label class="field"><span>Dirección</span><input type="text" id="bizAddress" /></label>
+          <label class="field full"><span>Descripción</span><input type="text" id="bizDesc" /></label>
+          <label class="field"><span>Logo (URL)</span><input type="url" id="bizImage" /></label>
+          <label class="field"><span>Comisión (%)</span><input type="number" id="bizCommission" value="12" min="0" max="50" /></label>
+          <label class="field full"><span>Estado</span>
+            <select id="bizStatus">
+              <option value="pending">Pendiente</option>
+              <option value="active">Activo</option>
+              <option value="suspended">Suspendido</option>
+            </select>
+          </label>
+          <div class="form-actions full">
+            <button type="button" class="btn btn-ghost" data-close="bizModal">Cancelar</button>
+            <button type="submit" class="btn btn-primary">Guardar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL REPARTIDOR -->
+  <div class="modal" id="riderModal">
+    <div class="modal-overlay" data-close="riderModal"></div>
+    <div class="modal-panel">
+      <div class="modal-head">
+        <h2 id="riderModalTitle">Registrar repartidor</h2>
+        <button class="icon-btn" data-close="riderModal" aria-label="Cerrar">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form id="riderForm" class="form-grid">
+          <input type="hidden" id="riderId" />
+          <label class="field full"><span>Nombre completo</span><input type="text" id="riderName" required /></label>
+          <label class="field"><span>Teléfono</span><input type="tel" id="riderPhone" /></label>
+          <label class="field"><span>Email</span><input type="email" id="riderEmail" /></label>
+          <label class="field"><span>Vehículo</span>
+            <select id="riderVehicle">
+              <option value="moto">Moto</option><option value="bicicleta">Bicicleta</option>
+              <option value="auto">Auto</option><option value="a_pie">A pie</option>
+            </select>
+          </label>
+          <label class="field"><span>Placa / Identificador</span><input type="text" id="riderPlate" /></label>
+          <label class="field full"><span>Zona de trabajo</span><input type="text" id="riderZone" /></label>
+          <label class="field full"><span>Estado</span>
+            <select id="riderStatus">
+              <option value="pending">Pendiente</option>
+              <option value="active">Activo</option>
+              <option value="suspended">Suspendido</option>
+            </select>
+          </label>
+          <div class="form-actions full">
+            <button type="button" class="btn btn-ghost" data-close="riderModal">Cancelar</button>
+            <button type="submit" class="btn btn-primary">Guardar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL PROMO GLOBAL -->
+  <div class="modal" id="promoModal">
+    <div class="modal-overlay" data-close="promoModal"></div>
+    <div class="modal-panel">
+      <div class="modal-head">
+        <h2 id="promoModalTitle">Nueva promoción global</h2>
+        <button class="icon-btn" data-close="promoModal" aria-label="Cerrar">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form id="promoForm" class="form-grid">
+          <input type="hidden" id="promoId" />
+          <label class="field full"><span>Título</span><input type="text" id="promoTitle" required /></label>
+          <label class="field full"><span>Descripción</span><input type="text" id="promoDesc" /></label>
+          <label class="field"><span>Badge</span><input type="text" id="promoBadge" placeholder="Ej: 2x1, Envío gratis" /></label>
+          <label class="field"><span>Descuento (%)</span><input type="number" id="promoDiscount" min="0" max="100" /></label>
+          <div class="form-actions full">
+            <button type="button" class="btn btn-ghost" data-close="promoModal">Cancelar</button>
+            <button type="submit" class="btn btn-primary">Guardar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="../script/admin.js"></script>
+</body>
+</html>

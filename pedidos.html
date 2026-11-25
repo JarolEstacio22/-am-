@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#e31e24" />
+  <title>¡Ñam! Domicilios Aguachica</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <!-- Leaflet CSS para el mapa GPS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <style>
+    /* Estilos específicos para el seguimiento GPS */
+    .gps-container {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--r-lg);
+      overflow: hidden;
+      margin-bottom: 1.5rem;
+      box-shadow: var(--shadow-md);
+    }
+    
+    .gps-header {
+      padding: 1rem 1.25rem;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: var(--surface);
+      z-index: 10;
+    }
+    .gps-header h3 { font-size: 1.05rem; font-weight: 800; }
+    .gps-header p { font-size: 0.78rem; color: var(--text-3); margin-top: 0.1rem; }
+    .gps-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: var(--accent-soft);
+      color: var(--accent);
+      padding: 0.4rem 0.8rem;
+      border-radius: 999px;
+      font-size: 0.75rem;
+      font-weight: 700;
+    }
+    .gps-status .dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: var(--accent);
+      animation: blink 1.5s infinite;
+    }
+    @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+
+    /* Mapa */
+    #gpsMap {
+      height: 320px;
+      width: 100%;
+      background: #e5e7eb;
+      z-index: 1;
+    }
+
+    /* Info del domiciliario */
+    .driver-panel {
+      padding: 1rem 1.25rem;
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+    }
+    .driver-info-row {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 0.85rem;
+    }
+    .driver-avatar {
+      width: 48px; height: 48px;
+      border-radius: 50%;
+      background: var(--accent-soft);
+      color: var(--accent);
+      display: grid; place-items: center;
+      font-weight: 800; font-size: 1.1rem;
+      border: 2px solid var(--accent-light);
+    }
+    .driver-details { flex: 1; }
+    .driver-details h4 { font-size: 0.95rem; font-weight: 700; }
+    .driver-details p { font-size: 0.78rem; color: var(--text-3); }
+    .driver-actions { display: flex; gap: 0.5rem; }
+    .driver-btn {
+      width: 38px; height: 38px;
+      border-radius: 50%;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      display: grid; place-items: center;
+      color: var(--text-2);
+      transition: all 0.2s;
+      cursor: pointer;
+    }
+    .driver-btn:hover { background: var(--accent); color: #fff; border-color: var(--accent); }
+    .driver-btn.wa { color: #25d366; }
+    .driver-btn.wa:hover { background: #25d366; color: #fff; border-color: #25d366; }
+
+    /* ETA (Tiempo estimado) */
+    .eta-card {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: var(--bg);
+      padding: 0.75rem 1rem;
+      border-radius: var(--r-md);
+      border: 1px solid var(--border);
+    }
+    .eta-card .eta-left { display: flex; align-items: center; gap: 0.6rem; }
+    .eta-icon {
+      width: 36px; height: 36px; border-radius: 50%;
+      background: var(--accent);
+      color: #fff;
+      display: grid; place-items: center;
+    }
+    .eta-left h4 { font-size: 0.9rem; font-weight: 800; color: var(--text); }
+    .eta-left p { font-size: 0.72rem; color: var(--text-3); }
+    .eta-time { font-size: 1.15rem; font-weight: 800; color: var(--accent); }
+
+    /* Steps */
+    .steps-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 1rem 1.25rem;
+      background: var(--bg);
+      border-top: 1px solid var(--border);
+    }
+    .step {
+      display: flex; flex-direction: column; align-items: center;
+      gap: 0.4rem; flex: 1; position: relative;
+    }
+    .step::after {
+      content: '';
+      position: absolute;
+      top: 12px;
+      left: calc(50% + 14px);
+      right: calc(-50% + 14px);
+      height: 2px;
+      background: var(--border);
+      z-index: 1;
+    }
+    .step:last-child::after { display: none; }
+    .step.done::after, .step.active::after { background: var(--accent); }
+    .step-icon {
+      width: 26px; height: 26px; border-radius: 50%;
+      background: var(--surface);
+      border: 2px solid var(--border);
+      display: grid; place-items: center;
+      font-size: 0.7rem; color: var(--text-3);
+      z-index: 2;
+      transition: all 0.3s;
+    }
+    .step.done .step-icon { background: var(--success); border-color: var(--success); color: #fff; }
+    .step.active .step-icon { background: var(--accent); border-color: var(--accent); color: #fff; box-shadow: 0 0 0 4px var(--accent-soft); }
+    .step span { font-size: 0.65rem; font-weight: 600; color: var(--text-3); text-align: center; }
+    .step.active span, .step.done span { color: var(--text); }
+
+    /* Historial */
+    .history-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--r-md);
+      padding: 1rem;
+      display: flex; align-items: center; gap: 1rem;
+      margin-bottom: 0.75rem;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .history-card:hover { border-color: var(--accent); transform: translateY(-1px); }
+    .history-icon {
+      width: 44px; height: 44px; border-radius: 50%;
+      background: var(--muted);
+      display: grid; place-items: center;
+      color: var(--text-3);
+      flex-shrink: 0;
+    }
+    .history-body { flex: 1; }
+    .history-body h4 { font-size: 0.9rem; font-weight: 700; }
+    .history-body p { font-size: 0.75rem; color: var(--text-3); }
+    .history-status {
+      font-size: 0.7rem; font-weight: 700; padding: 0.3rem 0.6rem;
+      border-radius: 999px;
+    }
+    .history-status.delivered { background: var(--success-soft); color: var(--success); }
+
+    @media (min-width: 901px) {
+      #gpsMap { height: 420px; }
+    }
+  </style>
+</head>
+<body data-page="pedidos">
+
+  <!-- ================= VISTA APP (MÓVIL) ================= -->
+  <div class="app-view">
+    <header class="app-bar">
+      <span class="logo">
+        <img src="img/logo.png" alt="Domicilios" class="logo-img" style="height: 32px; width: auto;" />
+      </span>
+      <span class="location">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        Entregar aquí
+      </span>
+    </header>
+
+    <main class="app-content">
+      <section class="app-hero" style="padding-bottom: 0.5rem;">
+        <h1>Mis <span>pedidos</span></h1>
+        <p>Sigue a tu domiciliario en tiempo real.</p>
+      </section>
+
+      <!-- GPS TRACKING CONTAINER -->
+      <section style="padding: 0 1rem;">
+        <div class="gps-container">
+          <!-- Header del pedido -->
+          <div class="gps-header">
+            <div>
+              <h3>Pedido #4029</h3>
+              <p>La Pizzería &middot; 3 productos</p>
+            </div>
+            <span class="gps-status" id="gpsStatusLabel">
+              <span class="dot"></span>
+              <span id="gpsStatusText">Domiciliario aceptó</span>
+            </span>
+          </div>
+
+          <!-- Mapa GPS -->
+          <div id="gpsMap"></div>
+
+          <!-- Panel del Domiciliario -->
+          <div class="driver-panel">
+            <div class="driver-info-row">
+              <div class="driver-avatar">JR</div>
+              <div class="driver-details">
+                <h4>Juan Rodríguez</h4>
+                <p>Domiciliario &middot; Moto BXZ-42A</p>
+              </div>
+              <div class="driver-actions">
+                <button class="driver-btn" aria-label="Llamar">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                </button>
+                <button class="driver-btn wa" aria-label="WhatsApp">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></svg>
+                </button>
+              </div>
+            </div>
+
+            <!-- ETA -->
+            <div class="eta-card">
+              <div class="eta-left">
+                <div class="eta-icon">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                </div>
+                <div>
+                  <h4>Llegada estimada</h4>
+                  <p id="gpsDistance">A 1.2 km de ti</p>
+                </div>
+              </div>
+              <span class="eta-time" id="gpsEta">8 min</span>
+            </div>
+          </div>
+
+          <!-- Steps -->
+          <div class="steps-row">
+            <div class="step done" data-step="1">
+              <div class="step-icon">✓</div>
+              <span>Confirmado</span>
+            </div>
+            <div class="step done" data-step="2">
+              <div class="step-icon">✓</div>
+              <span>Preparado</span>
+            </div>
+            <div class="step active" data-step="3">
+              <div class="step-icon">●</div>
+              <span>En camino</span>
+            </div>
+            <div class="step" data-step="4">
+              <div class="step-icon">4</div>
+              <span>Entregado</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Historial -->
+        <h2 style="font-size: 1.05rem; font-weight: 700; margin: 1.5rem 0 1rem;">Pedidos anteriores</h2>
+        <div class="history-card">
+          <div class="history-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+          </div>
+          <div class="history-body">
+            <h4>Burger House</h4>
+            <p>15 Oct 2025 &middot; $45.200</p>
+          </div>
+          <span class="history-status delivered">Entregado</span>
+        </div>
+        <div class="history-card">
+          <div class="history-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+          </div>
+          <div class="history-body">
+            <h4>Farmacia Vida</h4>
+            <p>12 Oct 2025 &middot; $28.500</p>
+          </div>
+          <span class="history-status delivered">Entregado</span>
+        </div>
+      </section>
+    </main>
+
+    <nav class="tab-bar" aria-label="Navegación principal">
+      <a href="index.html" class="tab" data-tab="inicio"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 11l9-8 9 8"/><path d="M5 10v10a1 1 0 0 0 1 1h4v-6h4v6h4a1 1 0 0 0 1-1V10"/></svg>Inicio</a>
+      <a href="explorar.html" class="tab" data-tab="explorar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>Explorar</a>
+      <a href="#" class="tab" data-tab="carrito" id="appCartTab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>Carrito<span class="tab-badge" id="appCartBadge">0</span></a>
+      <a href="pedidos.html" class="tab active" data-tab="pedidos"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>Pedidos</a>
+      <a href="perfil.html" class="tab" data-tab="perfil"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>Perfil</a>
+    </nav>
+  </div>
+
+  <!-- ================= VISTA WEB (ESCRITORIO) ================= -->
+  <div class="web-view">
+    <header class="web-header">
+      <div class="container web-header-inner">
+        <a href="index.html" class="logo"><img src="img/logo.png" alt="Domicilios" class="logo-img" style="height: 38px; width: auto;" /></a>
+        <nav class="web-nav">
+          <a href="index.html" data-tab="inicio"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 11l9-8 9 8"/><path d="M5 10v10a1 1 0 0 0 1 1h4v-6h4v6h4a1 1 0 0 0 1-1V10"/></svg>Inicio</a>
+          <a href="explorar.html" data-tab="explorar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>Explorar</a>
+          <a href="#" data-tab="carrito" id="webCartNav"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>Carrito <span class="nav-badge" id="webCartBadge">0</span></a>
+          <a href="pedidos.html" class="active" data-tab="pedidos"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>Pedidos</a>
+          <a href="perfil.html" data-tab="perfil"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>Perfil</a>
+        </nav>
+        <div class="web-header-actions"><button class="btn-login">Iniciar sesión</button></div>
+      </div>
+    </header>
+
+    <main class="web-main">
+      <div class="container" style="max-width: 1000px;">
+        <h1 style="font-size: 1.8rem; font-weight: 800; margin-bottom: 1.5rem;">Sigue a tu domiciliario</h1>
+
+        <div class="gps-container">
+          <div class="gps-header">
+            <div>
+              <h3>Pedido #4029</h3>
+              <p>La Pizzería &middot; 3 productos &middot; Total: $45.800</p>
+            </div>
+            <span class="gps-status" id="gpsStatusLabelWeb">
+              <span class="dot"></span>
+              <span id="gpsStatusTextWeb">Domiciliario aceptó</span>
+            </span>
+          </div>
+          <div id="gpsMapWeb" style="height: 420px; width: 100%;"></div>
+          <div class="driver-panel">
+            <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+              <div class="driver-info-row" style="margin-bottom:0;">
+                <div class="driver-avatar">JR</div>
+                <div class="driver-details">
+                  <h4>Juan Rodríguez</h4>
+                  <p>Domiciliario &middot; Moto BXZ-42A</p>
+                </div>
+              </div>
+              <div style="display:flex; gap:0.5rem; align-items:center; justify-content: flex-end;">
+                <button class="driver-btn" aria-label="Llamar"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg></button>
+                <button class="driver-btn wa" aria-label="WhatsApp"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></svg></button>
+              </div>
+            </div>
+            <div class="eta-card" style="margin-top: 1rem;">
+              <div class="eta-left">
+                <div class="eta-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+                <div><h4>Llegada estimada</h4><p id="gpsDistanceWeb">A 1.2 km de ti</p></div>
+              </div>
+              <span class="eta-time" id="gpsEtaWeb">8 min</span>
+            </div>
+          </div>
+          <div class="steps-row">
+            <div class="step done"><div class="step-icon">✓</div><span>Confirmado</span></div>
+            <div class="step done"><div class="step-icon">✓</div><span>Preparado</span></div>
+            <div class="step active"><div class="step-icon">●</div><span>En camino</span></div>
+            <div class="step"><div class="step-icon">4</div><span>Entregado</span></div>
+          </div>
+        </div>
+      </div>
+    </main>
+    
+        <footer class="footer">
+      <div class="container">
+        <div class="footer-grid">
+
+          <!-- Columna 1: Branding + Descarga App -->
+          <div class="footer-brand">
+            <a href="index.html" class="logo" style="margin-bottom: 1rem; display: inline-flex;">
+              <img src="img/logo.png" alt="Domicilios Aguachica" class="logo-img" style="height: 32px; width: auto;" />
+            </a>
+            <p class="footer-tagline">
+              La app de domicilios de <strong>Aguachica, Cesar</strong>. Pide de los restaurantes de tu ciudad y
+              recíbelo con domiciliarios del pueblo.
+            </p>
+
+            <div class="app-download">
+              <span class="app-download-label">Descarga la app</span>
+              <div class="app-buttons">
+                <a href="#" class="app-btn" aria-label="Descargar en App Store">
+                  <svg viewBox="0 0 24 24" fill="currentColor">
+                    <path
+                      d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z" />
+                  </svg>
+                  <div class="app-btn-text">
+                    <small>Descárgalo en el</small>
+                    <strong>App Store</strong>
+                  </div>
+                </a>
+                <a href="#" class="app-btn" aria-label="Descargar en Google Play">
+                  <svg viewBox="0 0 24 24" fill="currentColor">
+                    <path
+                      d="M3 20.5V3.5c0-.59.34-1.11.84-1.35L13.69 12l-9.85 9.85c-.5-.24-.84-.76-.84-1.35m13.81-5.38L6.05 21.34l8.49-8.49 2.27 2.27m3.35-4.31c.34.27.59.69.59 1.19s-.22.9-.57 1.18l-2.29 1.32-2.5-2.5 2.5-2.5 2.27 1.31M6.05 2.66l10.76 6.22-2.27 2.27-8.49-8.49z" />
+                  </svg>
+                  <div class="app-btn-text">
+                    <small>Disponible en</small>
+                    <strong>Google Play</strong>
+                  </div>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Columna 2: Para negocios -->
+          <div class="footer-col">
+            <h4>Para negocios</h4>
+            <ul>
+              <li><a href="form-negocio.html">Tengo un restaurante</a></li>
+              <li><a href="form-repartidor.html">Quiero ser domiciliario</a></li>
+              <li><a href="#">Alianzas corporativas</a></li>
+            </ul>
+          </div>
+
+          <!-- Columna 3: Síguenos -->
+          <div class="footer-col">
+            <h4>Síguenos</h4>
+            <ul class="social-list">
+              <li>
+                <a href="#" class="social-link">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                    stroke-linejoin="round">
+                    <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+                    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+                    <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
+                  </svg>
+                  @nam_aguachica
+                </a>
+              </li>
+              <li>
+                <a href="#" class="social-link">
+                  <svg viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />
+                  </svg>
+                  Domicilios Aguachica
+                </a>
+              </li>
+            </ul>
+          </div>
+
+          <!-- Columna 4: Ayuda y legal -->
+          <div class="footer-col">
+            <h4>Ayuda y legal</h4>
+            <ul>
+              <li>
+                <a href="#" class="whatsapp-link">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                    stroke-linejoin="round" style="width:16px;height:16px;margin-right:6px;vertical-align:-3px;">
+                    <path
+                      d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" />
+                  </svg>
+                  WhatsApp 312 767 7678
+                </a>
+              </li>
+              <li><a href="#">PQR</a></li>
+              <li><a href="#">Términos y Condiciones</a></li>
+              <li><a href="#">Privacidad</a></li>
+              <li><a href="#">Derecho de retracto</a></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="footer-bottom">
+          <div class="footer-bottom-left">
+            <span>&copy;  Domicilios Aguachica. Todos los derechos reservados.</span>
+            <span class="footer-dev">Desarrollado por <a href="#" target="_blank" rel="noopener">SoftGA</a></span>
+          </div>
+          <div class="footer-badges">
+            <span class="badge-payment">Pagos seguros</span>
+            <span class="badge-payment">Datos protegidos</span>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <!-- MODAL Y DRAWER -->
+  <div class="modal" id="restaurantModal" role="dialog" aria-modal="true">
+    <div class="modal-overlay" id="modalOverlay"></div>
+    <div class="modal-panel">
+      <div class="modal-hero"><img id="modalImg" src="" alt="" /><button class="modal-close" id="modalClose"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button><div class="modal-hero-info"><h2 id="modalName"></h2><div class="meta"><span id="modalRating"></span><span id="modalTime"></span><span id="modalDelivery"></span></div><div class="address" id="modalAddress"></div><div class="modal-business-info" id="modalBusinessInfo"></div></div></div>
+      <div class="modal-body"><h3 id="modalMenuTitle">Productos destacados</h3><div id="modalMenu"></div></div>
+    </div>
+  </div>
+
+  <div class="drawer" id="drawer">
+    <div class="drawer-overlay" id="drawerOverlay"></div>
+    <aside class="drawer-panel" role="dialog" aria-modal="true">
+      <div class="drawer-head"><h3>Tu pedido</h3><button class="icon-btn" id="drawerClose"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></div>
+      <div class="drawer-body" id="drawerBody"></div>
+      <div class="drawer-foot">
+        <div class="total-row"><span>Subtotal</span><span id="subtotalEl">$0</span></div>
+        <div class="total-row"><span>Envío</span><span id="shippingEl">$0</span></div>
+        <div class="total-row grand"><span>Total</span><span id="totalEl">$0</span></div>
+        <button class="btn btn-primary" id="checkoutBtn">Confirmar pedido</button>
+      </div>
+    </aside>
+  </div>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <!-- Leaflet JS para el mapa GPS -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="js/script.js"></script>
+
+  <!-- Script específico para la simulación GPS -->
+  <script>
+    (function () {
+      // Coordenadas reales de Aguachica, Cesar
+      const restaurantCoords = [8.3114, -73.6265];   // Restaurante (La Pizzería)
+      const customerCoords   = [8.3182, -73.6150];   // Casa del cliente
+
+      // Puntos de la ruta simulada entre el restaurante y el cliente
+      const routePath = [
+        [8.3114, -73.6265],
+        [8.3128, -73.6242],
+        [8.3145, -73.6220],
+        [8.3160, -73.6198],
+        [8.3170, -73.6175],
+        [8.3182, -73.6150]
+      ];
+
+      function initMap(mapId) {
+        const mapEl = document.getElementById(mapId);
+        if (!mapEl) return;
+
+        const map = L.map(mapId, {
+          zoomControl: true,
+          scrollWheelZoom: false,
+          attributionControl: false
+        }).setView(restaurantCoords, 15);
+
+        // Mapa base (OpenStreetMap)
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+          maxZoom: 19
+        }).addTo(map);
+
+        // Icono del restaurante
+        const restaurantIcon = L.divIcon({
+          className: 'custom-marker',
+          html: `<div style="background:#2b2b2b;color:#fff;padding:6px 10px;border-radius:999px;font-weight:700;font-size:11px;box-shadow:0 4px 12px rgba(0,0,0,.3);white-space:nowrap;">🏪 Restaurante</div>`,
+          iconSize: [90, 30],
+          iconAnchor: [45, 15]
+        });
+
+        // Icono del cliente (casa)
+        const customerIcon = L.divIcon({
+          className: 'custom-marker',
+          html: `<div style="background:var(--accent, #e31e24);color:#fff;padding:6px 10px;border-radius:999px;font-weight:700;font-size:11px;box-shadow:0 4px 12px rgba(227,30,36,.4);white-space:nowrap;">🏠 Tú</div>`,
+          iconSize: [60, 30],
+          iconAnchor: [30, 15]
+        });
+
+        // Icono del domiciliario (moto)
+        const driverIcon = L.divIcon({
+          className: 'custom-marker',
+          html: `<div style="background:#25d366;color:#fff;padding:6px 10px;border-radius:999px;font-weight:700;font-size:11px;box-shadow:0 4px 12px rgba(37,211,102,.5);white-space:nowrap;">🛵 Domiciliario</div>`,
+          iconSize: [100, 30],
+          iconAnchor: [50, 15]
+        });
+
+        L.marker(restaurantCoords, { icon: restaurantIcon }).addTo(map);
+        L.marker(customerCoords, { icon: customerIcon }).addTo(map);
+
+        // Dibujar la ruta
+        L.polyline(routePath, {
+          color: '#e31e24',
+          weight: 5,
+          opacity: 0.8,
+          lineCap: 'round',
+          lineJoin: 'round',
+          dashArray: '10, 8'
+        }).addTo(map);
+
+        // Marcador del domiciliario que se mueve
+        const driverMarker = L.marker(routePath[0], { icon: driverIcon }).addTo(map);
+
+        // Ajustar zoom para ver toda la ruta
+        setTimeout(() => {
+          map.fitBounds(L.latLngBounds([restaurantCoords, customerCoords]), { padding: [40, 40] });
+        }, 300);
+
+        return { map, driverMarker };
+      }
+
+      // Calcular distancia entre dos puntos (Haversine)
+      function distanceKm(lat1, lon1, lat2, lon2) {
+        const R = 6371;
+        const dLat = (lat2 - lat1) * Math.PI / 180;
+        const dLon = (lon2 - lon1) * Math.PI / 180;
+        const a = Math.sin(dLat/2) ** 2 + Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) * Math.sin(dLon/2) ** 2;
+        return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+      }
+
+      // Simular movimiento
+      function simulateTracking(mapData, labelEls) {
+        if (!mapData) return;
+        const { driverMarker } = mapData;
+        let step = 0;
+
+        const updateStatus = (progress) => {
+          let status = 'Domiciliario aceptó';
+          let stepActive = 3;
+          if (progress >= 25) status = 'Preparando tu pedido';
+          if (progress >= 50) status = 'Domiciliario en camino';
+          if (progress >= 85) status = '¡Casi llega!';
+          if (progress >= 100) status = 'Pedido entregado';
+
+          const dist = distanceKm(
+            routePath[step][0], routePath[step][1],
+            customerCoords[0], customerCoords[1]
+          ).toFixed(1);
+
+          const eta = Math.max(1, Math.round((1 - progress / 100) * 8));
+
+          labelEls.status.forEach(el => { if (el) el.textContent = status; });
+          labelEls.distance.forEach(el => { if (el) el.textContent = progress >= 100 ? '¡Entregado!' : `A ${dist} km de ti`; });
+          labelEls.eta.forEach(el => { if (el) el.textContent = progress >= 100 ? '✓' : `${eta} min`; });
+
+          // Actualizar pasos visuales
+          document.querySelectorAll('.step').forEach((s, i) => {
+            s.classList.remove('done', 'active');
+            if (i < stepActive - 1) s.classList.add('done');
+            else if (i === stepActive - 1) s.classList.add('active');
+            if (progress >= 100) { s.classList.remove('active'); s.classList.add('done'); }
+          });
+        };
+
+        const interval = setInterval(() => {
+          step++;
+          if (step >= routePath.length) {
+            step = routePath.length - 1;
+            clearInterval(interval);
+          }
+          const pos = routePath[step];
+          driverMarker.setLatLng(pos);
+
+          const progress = (step / (routePath.length - 1)) * 100;
+          updateStatus(progress);
+
+          if (progress >= 100) clearInterval(interval);
+        }, 3500); // Se mueve cada 3.5 segundos
+      }
+
+      // Detectar si estamos en pedidos.html
+      window.addEventListener('load', () => {
+        if (document.body.dataset.page !== 'pedidos') return;
+
+        // Iniciar mapa en vista APP
+        const mapDataApp = initMap('gpsMap');
+        if (mapDataApp) {
+          simulateTracking(mapDataApp, {
+            status: [document.getElementById('gpsStatusText')],
+            distance: [document.getElementById('gpsDistance')],
+            eta: [document.getElementById('gpsEta')]
+          });
+        }
+
+        // Iniciar mapa en vista WEB (solo si existe)
+        if (document.getElementById('gpsMapWeb')) {
+          setTimeout(() => {
+            const mapDataWeb = initMap('gpsMapWeb');
+            if (mapDataWeb) {
+              simulateTracking(mapDataWeb, {
+                status: [document.getElementById('gpsStatusTextWeb')],
+                distance: [document.getElementById('gpsDistanceWeb')],
+                eta: [document.getElementById('gpsEtaWeb')]
+              });
+            }
+          }, 200);
+        }
+      });
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#e31e24" />
+  <meta name="description" content="Envía paquetes y encomiendas de forma rápida, segura y económica en Aguachica." />
+  <title>¡Ñam! Domicilios Aguachica</title>
+  <link rel="icon" type="image/png" sizes="32x32" href="img/logo.png" />
+  <link rel="stylesheet" href="css/style.css" />
+  <style>
+    .package-hero {
+      background: linear-gradient(135deg, var(--accent), #b91c1c);
+      color: #fff;
+      padding: 3rem 1.5rem;
+      text-align: center;
+      border-radius: var(--r-lg);
+      margin-bottom: 2rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .package-hero::after {
+      content: '';
+      position: absolute; inset: 0;
+      background: url('https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1200&q=80') center/cover;
+      opacity: 0.15; z-index: 0;
+    }
+    .package-hero > * { position: relative; z-index: 1; }
+    .package-hero h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); font-weight: 800; margin-bottom: 0.5rem; }
+    .package-hero p { font-size: 1rem; opacity: 0.9; max-width: 500px; margin: 0 auto 1.5rem; }
+    
+    .package-form-container {
+      max-width: 800px; margin: 0 auto;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--r-lg);
+      padding: 2rem;
+      box-shadow: var(--shadow-md);
+    }
+    .form-step-indicator {
+      display: flex; justify-content: space-between; margin-bottom: 2rem; position: relative;
+    }
+    .form-step-indicator::before {
+      content: ''; position: absolute; top: 15px; left: 10%; right: 10%; height: 2px; background: var(--border); z-index: 1;
+    }
+    .form-step {
+      display: flex; flex-direction: column; align-items: center; gap: 0.5rem; z-index: 2;
+    }
+    .step-circle {
+      width: 32px; height: 32px; border-radius: 50%; background: var(--surface); border: 2px solid var(--border);
+      display: grid; place-items: center; font-weight: 700; font-size: 0.8rem; color: var(--text-3);
+    }
+    .form-step.active .step-circle { background: var(--accent); border-color: var(--accent); color: #fff; box-shadow: 0 0 0 4px var(--accent-soft); }
+    .form-step.done .step-circle { background: var(--success); border-color: var(--success); color: #fff; }
+    .form-step span { font-size: 0.75rem; font-weight: 600; color: var(--text-3); }
+    .form-step.active span { color: var(--accent); }
+
+    .form-group { margin-bottom: 1.25rem; }
+    .form-group label { display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 0.5rem; color: var(--text-2); }
+    .form-control {
+      width: 100%; padding: 0.75rem 1rem; border: 1px solid var(--border);
+      border-radius: var(--r-sm); font-size: 0.9rem; background: var(--bg);
+      transition: border-color 0.2s;
+    }
+    .form-control:focus { border-color: var(--accent); outline: none; background: var(--surface); }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .btn-block { width: 100%; padding: 1rem; font-size: 1rem; margin-top: 1rem; }
+    
+    .package-features { display: flex; justify-content: center; gap: 1.5rem; flex-wrap: wrap; margin-top: 2rem; }
+    .pkg-feature { display: flex; align-items: center; gap: 0.5rem; font-size: 0.85rem; font-weight: 600; color: var(--text-2); }
+    .pkg-feature svg { color: var(--accent); width: 18px; height: 18px; }
+  </style>
+</head>
+<body data-page="enviar-paquete">
+
+  <!-- APP -->
+  <div class="app-view">
+    <header class="app-bar">
+      <span class="logo"><img src="img/logo.png" alt="Domicilios" class="logo-img" style="height: 32px;" /></span>
+      <span class="location"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>Entregar aquí</span>
+    </header>
+    <main class="app-content">
+      <div style="padding: 1rem;">
+        <div class="package-hero" style="padding: 2rem 1.25rem;">
+          <h1>Envía tu paquete</h1>
+          <p>Rápido, seguro y al mejor precio de Aguachica.</p>
+        </div>
+        <div class="package-form-container" style="padding: 1.25rem;">
+          <div class="form-step-indicator">
+            <div class="form-step active"><div class="step-circle">1</div><span>Origen</span></div>
+            <div class="form-step"><div class="step-circle">2</div><span>Destino</span></div>
+            <div class="form-step"><div class="step-circle">3</div><span>Detalles</span></div>
+          </div>
+          <form id="packageForm">
+            <div class="form-group"><label>Dirección de recogida</label><input type="text" class="form-control" placeholder="Ej: Calle 45 #12-30, Centro" required /></div>
+            <div class="form-row">
+              <div class="form-group"><label>Nombre de quien envía</label><input type="text" class="form-control" placeholder="Tu nombre" required /></div>
+              <div class="form-group"><label>Teléfono</label><input type="tel" class="form-control" placeholder="312 000 0000" required /></div>
+            </div>
+            <div class="form-group"><label>Dirección de entrega</label><input type="text" class="form-control" placeholder="Ej: Carrera 7 #56-12, Zona Rosa" required /></div>
+            <div class="form-row">
+              <div class="form-group"><label>Nombre de quien recibe</label><input type="text" class="form-control" placeholder="Nombre del destinatario" required /></div>
+              <div class="form-group"><label>Teléfono del destinatario</label><input type="tel" class="form-control" placeholder="312 000 0000" required /></div>
+            </div>
+            <div class="form-group"><label>Descripción del paquete</label><input type="text" class="form-control" placeholder="Ej: Documentos, ropa, electrónico..." required /></div>
+            <div class="form-row">
+              <div class="form-group"><label>Tamaño</label><select class="form-control"><option>Pequeño (sobre)</option><option>Mediano (caja)</option><option>Grande (paquete)</option></select></div>
+              <div class="form-group"><label>Peso aproximado</label><select class="form-control"><option>Menos de 1 kg</option><option>1 - 5 kg</option><option>5 - 10 kg</option><option>Más de 10 kg</option></select></div>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">Solicitar domiciliario</button>
+            <div class="package-features">
+              <div class="pkg-feature"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg> Entrega rápida</div>
+              <div class="pkg-feature"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg> 100% seguro</div>
+              <div class="pkg-feature"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="2" y="6" width="20" height="12" rx="2"/><circle cx="12" cy="12" r="2"/></svg> Pago contra entrega</div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </main>
+    <nav class="tab-bar">
+      <a href="index.html" class="tab" data-tab="inicio"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 11l9-8 9 8"/><path d="M5 10v10a1 1 0 0 0 1 1h4v-6h4v6h4a1 1 0 0 0 1-1V10"/></svg>Inicio</a>
+      <a href="explorar.html" class="tab" data-tab="explorar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>Explorar</a>
+      <a href="enviar-paquete.html" class="tab active" data-tab="enviar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>Paquete</a>
+      <a href="#" class="tab" data-tab="carrito" id="appCartTab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>Carrito<span class="tab-badge" id="appCartBadge">0</span></a>
+      <a href="pedidos.html" class="tab" data-tab="pedidos"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>Pedidos</a>
+      <a href="perfil.html" class="tab" data-tab="perfil"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>Perfil</a>
+    </nav>
+  </div>
+
+  <!-- WEB -->
+  <div class="web-view">
+    <header class="web-header">
+      <div class="container web-header-inner">
+        <a href="index.html" class="logo"><img src="img/logo.png" alt="Domicilios" class="logo-img" style="height: 38px;" /></a>
+        <nav class="web-nav">
+          <a href="index.html" data-tab="inicio"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 11l9-8 9 8"/><path d="M5 10v10a1 1 0 0 0 1 1h4v-6h4v6h4a1 1 0 0 0 1-1V10"/></svg>Inicio</a>
+          <a href="explorar.html" data-tab="explorar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>Explorar</a>
+          <a href="enviar-paquete.html" class="active" data-tab="enviar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>Enviar paquete</a>
+          <a href="#" data-tab="carrito" id="webCartNav"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>Carrito <span class="nav-badge" id="webCartBadge">0</span></a>
+          <a href="pedidos.html" data-tab="pedidos"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>Pedidos</a>
+          <a href="perfil.html" data-tab="perfil"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>Perfil</a>
+        </nav>
+        <div class="web-header-actions"><button class="btn-login">Iniciar sesión</button></div>
+      </div>
+    </header>
+    <main class="web-main">
+      <div class="container">
+        <div class="package-hero" style="padding: 4rem 2rem; text-align: center;">
+          <h1>Envía tu paquete con nosotros</h1>
+          <p>Tu encomienda segura y a tiempo en cualquier parte de Aguachica.</p>
+        </div>
+        <div class="package-form-container" style="margin-bottom: 4rem;">
+          <div class="form-step-indicator">
+            <div class="form-step active"><div class="step-circle">1</div><span>Origen</span></div>
+            <div class="form-step"><div class="step-circle">2</div><span>Destino</span></div>
+            <div class="form-step"><div class="step-circle">3</div><span>Detalles</span></div>
+          </div>
+          <form id="packageFormWeb">
+            <div class="form-row">
+              <div class="form-group"><label>Dirección de recogida</label><input type="text" class="form-control" placeholder="Ej: Calle 45 #12-30, Centro" required /></div>
+              <div class="form-group"><label>Dirección de entrega</label><input type="text" class="form-control" placeholder="Ej: Carrera 7 #56-12, Zona Rosa" required /></div>
+            </div>
+            <div class="form-row">
+              <div class="form-group"><label>Nombre de quien envía</label><input type="text" class="form-control" placeholder="Tu nombre" required /></div>
+              <div class="form-group"><label>Teléfono</label><input type="tel" class="form-control" placeholder="312 000 0000" required /></div>
+            </div>
+            <div class="form-row">
+              <div class="form-group"><label>Nombre de quien recibe</label><input type="text" class="form-control" placeholder="Nombre del destinatario" required /></div>
+              <div class="form-group"><label>Teléfono del destinatario</label><input type="tel" class="form-control" placeholder="312 000 0000" required /></div>
+            </div>
+            <div class="form-row">
+              <div class="form-group"><label>Descripción del paquete</label><input type="text" class="form-control" placeholder="Ej: Documentos, ropa, electrónico..." required /></div>
+              <div class="form-group"><label>Tamaño</label><select class="form-control"><option>Pequeño (sobre)</option><option>Mediano (caja)</option><option>Grande (paquete)</option></select></div>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">Solicitar domiciliario</button>
+          </form>
+        </div>
+      </div>
+    </main>
+    <!-- FOOTER -->
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-grid">
+          <div class="footer-brand">
+            <a href="index.html" class="logo" style="margin-bottom: 1rem; display: inline-flex;"><img src="img/logo.png" alt="Domicilios Aguachica" class="logo-img" style="height: 32px;" /></a>
+            <p class="footer-tagline">La app de domicilios de <strong>Aguachica, Cesar</strong>. Pide de los restaurantes de tu ciudad y recíbelo con domiciliarios del pueblo.</p>
+            <div class="app-download">
+              <span class="app-download-label">Descarga la app</span>
+              <div class="app-buttons">
+                <a href="#" class="app-btn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg><div class="app-btn-text"><small>Descárgalo en el</small><strong>App Store</strong></div></a>
+                <a href="#" class="app-btn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 20.5V3.5c0-.59.34-1.11.84-1.35L13.69 12l-9.85 9.85c-.5-.24-.84-.76-.84-1.35m13.81-5.38L6.05 21.34l8.49-8.49 2.27 2.27m3.35-4.31c.34.27.59.69.59 1.19s-.22.9-.57 1.18l-2.29 1.32-2.5-2.5 2.5-2.5 2.27 1.31M6.05 2.66l10.76 6.22-2.27 2.27-8.49-8.49z"/></svg><div class="app-btn-text"><small>Disponible en</small><strong>Google Play</strong></div></a>
+              </div>
+            </div>
+          </div>
+          <div class="footer-col"><h4>Para negocios</h4><ul><li><a href="form-negocio.html">Tengo un restaurante</a></li><li><a href="form-repartidor.html">Quiero ser domiciliario</a></li><li><a href="#">Alianzas corporativas</a></li></ul></div>
+          <div class="footer-col"><h4>Síguenos</h4><ul class="social-list"><li><a href="#" class="social-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>@nam_aguachica</a></li><li><a href="#" class="social-link"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>Domicilios Aguachica</a></li></ul></div>
+          <div class="footer-col"><h4>Ayuda y legal</h4><ul><li><a href="#" class="whatsapp-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:16px;height:16px;margin-right:6px;vertical-align:-3px;"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>WhatsApp 312 767 7678</a></li><li><a href="#">PQR</a></li><li><a href="#">Términos y Condiciones</a></li><li><a href="#">Privacidad</a></li><li><a href="#">Derecho de retracto</a></li></ul></div>
+        </div>
+        <div class="footer-bottom">
+          <div class="footer-bottom-left"><span>&copy; 2025 Domicilios Aguachica. Todos los derechos reservados.</span><span class="footer-dev">Desarrollado por <a href="#">SoftGA</a></span></div>
+          <div class="footer-badges"><span class="badge-payment">Pagos seguros</span><span class="badge-payment">Datos protegidos</span></div>
+        </div>
+      </div>
+    </footer>
+  </div>
+  <script src="js/script.js"></script>
+</body>
+</html>

@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#e31e24" />
+  <meta name="description"
+    content="Domicilios rápidos, paquetería y encomiendas. Pide comida, farmacia, tecnología y más con entrega en 30 minutos." />
+  
+  <!-- Título -->
+  <title>¡Ñam! Domicilios Aguachica</title>
+
+  <!-- FAVICON / LOGO -->
+  <!-- Estándar para navegadores -->
+  <link rel="icon" type="image/png" sizes="32x32" href="img/logo.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="img/logo.png" />
+  <link rel="icon" type="image/x-icon" href="img/favicon.ico" />
+  
+  <!-- Para dispositivos Apple (iOS/iPadOS) -->
+  <link rel="apple-touch-icon" sizes="180x180" href="img/logo.png" />
+  <link rel="apple-touch-icon" sizes="152x152" href="img/logo.png" />
+  <link rel="apple-touch-icon" sizes="120x120" href="img/logo.png" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="Domicilios" />
+  
+  <!-- Para Android / PWA -->
+  <link rel="manifest" href="manifest.json" />
+  <link rel="mask-icon" href="img/logo.png" color="#e31e24" />
+  
+  <!-- Hojas de estilo -->
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body data-page="carrito">
+
+  <!-- ================= VISTA APP (MÓVIL) ================= -->
+  <div class="app-view">
+    <header class="app-bar">
+      <span class="logo">
+        <span class="logo-mark">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-8 9 8"/><path d="M5 10v10a1 1 0 0 0 1 1h4v-6h4v6h4a1 1 0 0 0 1-1V10"/></svg>
+        </span>
+        <span class="logo-text">
+          <b>Chuaz<span class="logo-dot">.</span></b>
+          <small>Domicilios</small>
+        </span>
+      </span>
+    </header>
+
+    <main class="app-content">
+      <section class="simple-page">
+        <h1>Tu carrito</h1>
+        <p>Revisa los productos y confirma tu pedido.</p>
+        <div class="simple-card" id="cartPageContent">
+          Cargando carrito...
+        </div>
+        <div style="margin-top:1.5rem;display:flex;flex-direction:column;gap:.75rem;">
+          <div class="total-row"><span>Subtotal</span><span id="subtotalEl">$0</span></div>
+          <div class="total-row"><span>Envío</span><span id="shippingEl">$0</span></div>
+          <div class="total-row grand"><span>Total</span><span id="totalEl">$0</span></div>
+          <button class="btn btn-primary" id="checkoutBtn" style="width:100%;">Confirmar pedido</button>
+        </div>
+      </section>
+    </main>
+
+    <nav class="tab-bar" aria-label="Navegación principal">
+      <a href="index.html" class="tab" data-tab="inicio">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-8 9 8"/><path d="M5 10v10a1 1 0 0 0 1 1h4v-6h4v6h4a1 1 0 0 0 1-1V10"/></svg>
+        Inicio
+      </a>
+      <a href="explorar.html" class="tab" data-tab="explorar">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        Explorar
+      </a>
+      <a href="carrito.html" class="tab active" data-tab="carrito">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+        Carrito
+        <span class="tab-badge" id="appCartBadge">0</span>
+      </a>
+      <a href="pedidos.html" class="tab" data-tab="pedidos">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        Pedidos
+      </a>
+      <a href="perfil.html" class="tab" data-tab="perfil">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        Perfil
+      </a>
+    </nav>
+  </div>
+
+  <!-- ================= VISTA WEB (ESCRITORIO) ================= -->
+  <div class="web-view">
+    <header class="web-header">
+      <div class="container web-header-inner">
+        <a href="index.html" class="logo" aria-label="Chuaz inicio">
+          <span class="logo-mark">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-8 9 8"/><path d="M5 10v10a1 1 0 0 0 1 1h4v-6h4v6h4a1 1 0 0 0 1-1V10"/></svg>
+          </span>
+          <span class="logo-text">
+            <b>Chuaz<span class="logo-dot">.</span></b>
+            <small>Domicilios</small>
+          </span>
+        </a>
+
+        <nav class="web-nav" aria-label="Navegación principal">
+          <a href="index.html" data-tab="inicio">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-8 9 8"/><path d="M5 10v10a1 1 0 0 0 1 1h4v-6h4v6h4a1 1 0 0 0 1-1V10"/></svg>
+            Inicio
+          </a>
+          <a href="explorar.html" data-tab="explorar">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            Explorar
+          </a>
+          <a href="carrito.html" class="active" data-tab="carrito">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+            Carrito
+            <span class="nav-badge" id="webCartBadge">0</span>
+          </a>
+          <a href="pedidos.html" data-tab="pedidos">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+            Pedidos
+          </a>
+          <a href="perfil.html" data-tab="perfil">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            Perfil
+          </a>
+        </nav>
+
+        <div class="web-header-actions">
+          <button class="btn-login">Iniciar sesión</button>
+        </div>
+      </div>
+    </header>
+
+    <main class="web-main">
+      <div class="container">
+        <section class="simple-page" style="max-width:720px;">
+          <h1>Tu carrito</h1>
+          <p>Revisa los productos y confirma tu pedido.</p>
+          <div class="simple-card" id="cartPageContentWeb">
+            Cargando carrito...
+          </div>
+          <div style="margin-top:1.5rem;display:flex;flex-direction:column;gap:.75rem;max-width:400px;margin-left:auto;">
+            <div class="total-row"><span>Subtotal</span><span id="subtotalElWeb">$0</span></div>
+            <div class="total-row"><span>Envío</span><span id="shippingElWeb">$0</span></div>
+            <div class="total-row grand"><span>Total</span><span id="totalElWeb">$0</span></div>
+            <button class="btn btn-primary" id="checkoutBtnWeb" style="width:100%;">Confirmar pedido</button>
+          </div>
+        </section>
+      </div>
+    </main>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="js/script.js"></script>
+</body>
+</html>

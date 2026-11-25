@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#e31e24" />
+  <meta name="description" content="Domicilios Aguachica, paquetería y encomiendas. Pide comida, farmacia, tecnología y más con entrega en 30 minutos." />
+  <title>¡Ñam! Domicilios Aguachica</title>
+  <link rel="icon" type="image/png" sizes="32x32" href="img/logo.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="img/logo.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="img/logo.png" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body data-page="inicio">
+
+  <!-- ================= VISTA APP ================= -->
+  <div class="app-view">
+    <header class="app-bar">
+      <span class="logo"><img src="img/logo.png" alt="Domicilios" class="logo-img" style="height: 32px;" /></span>
+      <span class="location">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        Entregar aquí
+      </span>
+    </header>
+
+    <main class="app-content">
+      <section class="carousel app-carousel" aria-label="Publicidad">
+        <div class="carousel-track" id="appCarouselTrack"></div>
+        <button class="carousel-btn carousel-prev" data-carousel="app" aria-label="Anterior"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><polyline points="15 18 9 12 15 6"/></svg></button>
+        <button class="carousel-btn carousel-next" data-carousel="app" aria-label="Siguiente"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><polyline points="9 18 15 12 9 6"/></svg></button>
+        <div class="carousel-dots" id="appCarouselDots"></div>
+      </section>
+
+      <section class="app-hero">
+        <h1>¿Qué se te <span>antoja</span> hoy?</h1>
+        <p>Comida, farmacia, tecnología, encomiendas y más.</p>
+        <div class="app-search">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <input type="text" id="appSearchInput" placeholder="Buscar productos o negocios..." />
+          <button class="btn btn-primary" id="appSearchBtn">Buscar</button>
+        </div>
+      </section>
+
+      <section class="services-highlight" aria-label="Servicios de entrega">
+        <div class="services-grid">
+          <div class="service-card"><div class="service-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg></div><h4>Entrega a domicilio</h4><p>De todo lo que necesites.</p></div>
+          <div class="service-card"><div class="service-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg></div><h4>Paquetería y encomiendas</h4><p>Envía y recibe seguro.</p></div>
+          <div class="service-card"><div class="service-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div><h4>Entrega en 30 min</h4><p>Rápido y a tiempo.</p></div>
+        </div>
+      </section>
+
+      <section class="quick-verticals" aria-label="Explorar por tipo">
+        <div class="quick-verticals-head"><h2>Explora por tipo</h2><a href="explorar.html" class="quick-more">Ver todo</a></div>
+        <div class="quick-verticals-row" id="quickVerticalsApp"></div>
+      </section>
+
+      <div class="app-chips" id="appChips" role="tablist"></div>
+
+      <section class="app-section">
+        <div class="app-section-head"><h2>Negocios cerca</h2><span id="appResultsCount"></span></div>
+        <div class="app-list" id="appList"></div>
+      </section>
+
+      <section class="top-selling">
+        <div class="top-selling-head"><h2>Lo más pedido esta semana</h2></div>
+        <div class="top-selling-scroll" id="topSellingApp"></div>
+      </section>
+
+      <div class="social-proof">
+        <div class="avatars"><span style="background:#e31e24">MC</span><span style="background:#2b2b2b">JR</span><span style="background:#059669">AL</span><span style="background:#b45309">+9</span></div>
+        <p><strong>+12.000 pedidos</strong> esta semana en tu ciudad.</p>
+      </div>
+
+      <section class="benefits">
+        <div class="benefit"><div class="benefit-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></div><h4>Entrega en 30 min</h4><p>Rápido y confiable</p></div>
+        <div class="benefit"><div class="benefit-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div><h4>Pago seguro</h4><p>Datos protegidos</p></div>
+        <div class="benefit"><div class="benefit-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></div><h4>Soporte 24/7</h4><p>Siempre disponibles</p></div>
+      </section>
+
+      <section class="join-section">
+        <div class="join-card"><img src="img/repartidor.jpg" alt="Repartidor" /><div class="join-card-content"><h3>Únete como repartidor</h3><p>Gana dinero en tu tiempo libre entregando pedidos y encomiendas.</p><a href="form-repartidor.html" class="btn btn-primary">Llenar formulario</a></div></div>
+        <div class="join-card"><img src="img/negocio.jpg" alt="Negocio" /><div class="join-card-content"><h3>Registra tu negocio</h3><p>Llega a más clientes y aumenta tus ventas.</p><a href="form-negocio.html" class="btn btn-primary">Llenar formulario</a></div></div>
+      </section>
+    </main>
+
+    <nav class="tab-bar">
+      <a href="index.html" class="tab active" data-tab="inicio"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 11l9-8 9 8"/><path d="M5 10v10a1 1 0 0 0 1 1h4v-6h4v6h4a1 1 0 0 0 1-1V10"/></svg>Inicio</a>
+      <a href="explorar.html" class="tab" data-tab="explorar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>Explorar</a>
+      <a href="enviar-paquete.html" class="tab" data-tab="enviar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>Paquete</a>
+      <a href="#" class="tab" data-tab="carrito" id="appCartTab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>Carrito<span class="tab-badge" id="appCartBadge">0</span></a>
+      <a href="pedidos.html" class="tab" data-tab="pedidos"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>Pedidos</a>
+      <a href="perfil.html" class="tab" data-tab="perfil"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>Perfil</a>
+    </nav>
+  </div>
+
+  <!-- ================= VISTA WEB ================= -->
+  <div class="web-view">
+    <header class="web-header">
+      <div class="container web-header-inner">
+        <a href="index.html" class="logo"><img src="img/logo.png" alt="Domicilios" class="logo-img" style="height: 38px;" /></a>
+        <nav class="web-nav">
+          <a href="index.html" class="active" data-tab="inicio"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 11l9-8 9 8"/><path d="M5 10v10a1 1 0 0 0 1 1h4v-6h4v6h4a1 1 0 0 0 1-1V10"/></svg>Inicio</a>
+          <a href="explorar.html" data-tab="explorar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>Explorar</a>
+          <a href="enviar-paquete.html" data-tab="enviar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>Enviar paquete</a>
+          <a href="#" data-tab="carrito" id="webCartNav"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>Carrito <span class="nav-badge" id="webCartBadge">0</span></a>
+          <a href="pedidos.html" data-tab="pedidos"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>Pedidos</a>
+          <a href="perfil.html" data-tab="perfil"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>Perfil</a>
+        </nav>
+        <div class="web-header-actions"><button class="btn-login">Iniciar sesión</button></div>
+      </div>
+    </header>
+
+    <main class="web-main">
+      <div class="container">
+        <section class="carousel web-carousel" aria-label="Publicidad">
+          <div class="carousel-track" id="webCarouselTrack"></div>
+          <button class="carousel-btn carousel-prev" data-carousel="web" aria-label="Anterior"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><polyline points="15 18 9 12 15 6"/></svg></button>
+          <button class="carousel-btn carousel-next" data-carousel="web" aria-label="Siguiente"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><polyline points="9 18 15 12 9 6"/></svg></button>
+          <div class="carousel-dots" id="webCarouselDots"></div>
+        </section>
+
+        <section class="web-hero web-hero-compact">
+          <div class="web-hero-text">
+            <span class="web-hero-badge"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg> Entrega en 30 min</span>
+            <h1>Pide lo que necesites <span>hoy</span></h1>
+            <p>Comida, farmacia, tecnología, tiendas, paquetería y encomiendas. Todo en una sola app, entregado en tu puerta.</p>
+            <div class="web-search">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+              <input type="text" id="webSearchInput" placeholder="Buscar productos o negocios..." />
+              <button class="btn btn-primary" id="webSearchBtn">Buscar</button>
+            </div>
+          </div>
+        </section>
+
+        <section class="services-highlight services-web">
+          <div class="services-grid">
+            <div class="service-card"><div class="service-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg></div><h4>Entrega a domicilio</h4><p>De todo lo que necesites, hasta tu puerta.</p></div>
+            <div class="service-card"><div class="service-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg></div><h4>Paquetería y encomiendas</h4><p>Envía y recibe paquetes de forma segura.</p></div>
+            <div class="service-card"><div class="service-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div><h4>Entrega en 30 min</h4><p>Rápido, confiable y a tiempo.</p></div>
+          </div>
+        </section>
+
+        <section class="quick-verticals quick-verticals-web">
+          <div class="quick-verticals-head"><h2>Explora por tipo de negocio</h2><a href="explorar.html" class="quick-more">Ver todo</a></div>
+          <div class="quick-verticals-row" id="quickVerticalsWeb"></div>
+        </section>
+
+        <section class="top-selling top-selling-web">
+          <div class="top-selling-head"><h2>Lo más pedido esta semana</h2></div>
+          <div class="top-selling-row" id="topSellingWeb"></div>
+        </section>
+
+        <div class="web-body">
+          <aside class="web-sidebar"><h3>Categorías</h3><div id="webSideCats"></div></aside>
+          <div>
+            <div class="web-grid-head"><h2>Negocios cerca de ti</h2><span id="webResultsCount"></span></div>
+            <div class="web-grid" id="webGrid"></div>
+          </div>
+        </div>
+
+        <section class="benefits benefits-web">
+          <div class="benefit"><div class="benefit-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></div><h4>Entrega en 30 min</h4><p>Rápido y confiable</p></div>
+          <div class="benefit"><div class="benefit-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div><h4>Pago seguro</h4><p>Datos protegidos</p></div>
+          <div class="benefit"><div class="benefit-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></div><h4>Soporte 24/7</h4><p>Siempre disponibles</p></div>
+        </section>
+
+        <section class="join-section join-section-web">
+          <div class="join-card"><img src="img/repartidor.jpg" alt="Repartidor" /><div class="join-card-content"><h3>Únete como repartidor</h3><p>Gana dinero en tu tiempo libre. Sé tu propio jefe y elige tus horarios.</p><a href="form-repartidor.html" class="btn btn-primary">Llenar formulario</a></div></div>
+          <div class="join-card"><img src="img/negocio.jpg" alt="Negocio" /><div class="join-card-content"><h3>Registra tu negocio</h3><p>Llega a más clientes y aumenta tus ventas. Únete a nuestra red.</p><a href="form-negocio.html" class="btn btn-primary">Llenar formulario</a></div></div>
+        </section>
+      </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-grid">
+          <div class="footer-brand">
+            <a href="index.html" class="logo" style="margin-bottom: 1rem; display: inline-flex;"><img src="img/logo.png" alt="Domicilios Aguachica" class="logo-img" style="height: 32px;" /></a>
+            <p class="footer-tagline">La app de domicilios de <strong>Aguachica, Cesar</strong>. Pide de los restaurantes de tu ciudad y recíbelo con domiciliarios del pueblo.</p>
+            <div class="app-download">
+              <span class="app-download-label">Descarga la app</span>
+              <div class="app-buttons">
+                <a href="#" class="app-btn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg><div class="app-btn-text"><small>Descárgalo en el</small><strong>App Store</strong></div></a>
+                <a href="#" class="app-btn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 20.5V3.5c0-.59.34-1.11.84-1.35L13.69 12l-9.85 9.85c-.5-.24-.84-.76-.84-1.35m13.81-5.38L6.05 21.34l8.49-8.49 2.27 2.27m3.35-4.31c.34.27.59.69.59 1.19s-.22.9-.57 1.18l-2.29 1.32-2.5-2.5 2.5-2.5 2.27 1.31M6.05 2.66l10.76 6.22-2.27 2.27-8.49-8.49z"/></svg><div class="app-btn-text"><small>Disponible en</small><strong>Google Play</strong></div></a>
+              </div>
+            </div>
+          </div>
+          <div class="footer-col"><h4>Para negocios</h4><ul><li><a href="form-negocio.html">Tengo un restaurante</a></li><li><a href="form-repartidor.html">Quiero ser domiciliario</a></li><li><a href="#">Alianzas corporativas</a></li></ul></div>
+          <div class="footer-col"><h4>Síguenos</h4><ul class="social-list"><li><a href="#" class="social-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>@nam_aguachica</a></li><li><a href="#" class="social-link"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>Domicilios Aguachica</a></li></ul></div>
+          <div class="footer-col"><h4>Ayuda y legal</h4><ul><li><a href="#" class="whatsapp-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:16px;height:16px;margin-right:6px;vertical-align:-3px;"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>WhatsApp 312 767 7678</a></li><li><a href="#">PQR</a></li><li><a href="#">Términos y Condiciones</a></li><li><a href="#">Privacidad</a></li><li><a href="#">Derecho de retracto</a></li></ul></div>
+        </div>
+        <div class="footer-bottom">
+          <div class="footer-bottom-left"><span>&copy; 2025 Domicilios Aguachica. Todos los derechos reservados.</span><span class="footer-dev">Desarrollado por <a href="#">SoftGA</a></span></div>
+          <div class="footer-badges"><span class="badge-payment">Pagos seguros</span><span class="badge-payment">Datos protegidos</span></div>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <!-- MODAL Y DRAWER -->
+  <div class="modal" id="restaurantModal" role="dialog" aria-modal="true">
+    <div class="modal-overlay" id="modalOverlay"></div>
+    <div class="modal-panel">
+      <div class="modal-hero"><img id="modalImg" src="" alt="" /><button class="modal-close" id="modalClose"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button><div class="modal-hero-info"><h2 id="modalName"></h2><div class="meta"><span id="modalRating"></span><span id="modalTime"></span><span id="modalDelivery"></span></div><div class="address" id="modalAddress"></div><div class="modal-business-info" id="modalBusinessInfo"></div></div></div>
+      <div class="modal-body"><h3 id="modalMenuTitle">Productos destacados</h3><div id="modalMenu"></div></div>
+    </div>
+  </div>
+  <div class="drawer" id="drawer">
+    <div class="drawer-overlay" id="drawerOverlay"></div>
+    <aside class="drawer-panel"><div class="drawer-head"><h3>Tu pedido</h3><button class="icon-btn" id="drawerClose"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></div><div class="drawer-body" id="drawerBody"></div><div class="drawer-foot"><div class="total-row"><span>Subtotal</span><span id="subtotalEl">$0</span></div><div class="total-row"><span>Envío</span><span id="shippingEl">$0</span></div><div class="total-row grand"><span>Total</span><span id="totalEl">$0</span></div><button class="btn btn-primary" id="checkoutBtn">Confirmar pedido</button></div></aside>
+  </div>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="js/script.js"></script>
+</body>
+</html>

@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#251B45" />
+  <title>Chuaz Negocios | Panel de control</title>
+  <link rel="stylesheet" href="../css/panel.css" />
+</head>
+<body data-page="panel">
+
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-head">
+      <a href="panel.html" class="logo">
+        <span class="logo-mark">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M3 11l9-8 9 8"/><path d="M5 10v10a1 1 0 0 0 1 1h4v-6h4v6h4a1 1 0 0 0 1-1V10"/>
+          </svg>
+        </span>
+        <span class="logo-text">
+          <b>Chuaz<span class="logo-dot">.</span></b>
+          <small>Negocios</small>
+        </span>
+      </a>
+      <button class="icon-btn sidebar-close" id="sidebarClose" aria-label="Cerrar menú">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+
+    <div class="business-mini">
+      <img id="bizMiniImg" src="https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=120&q=80" alt="Logo del negocio" />
+      <div>
+        <strong id="bizMiniName">La Pizzería</strong>
+        <span id="bizMiniStatus" class="status-pill online">Abierto</span>
+      </div>
+    </div>
+
+    <nav class="side-nav" aria-label="Secciones del panel">
+      <a href="#" class="side-link active" data-section="resumen">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+        Resumen
+      </a>
+      <a href="#" class="side-link" data-section="pedidos">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        Pedidos
+        <span class="side-badge" id="badgePedidos">0</span>
+      </a>
+      <a href="#" class="side-link" data-section="productos">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 7l-8-4-8 4 8 4 8-4z"/><path d="M4 7v10l8 4 8-4V7"/><path d="M12 11v10"/></svg>
+        Productos
+      </a>
+      <a href="#" class="side-link" data-section="promociones">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
+        Promociones
+      </a>
+      <a href="#" class="side-link" data-section="resenas">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        Reseñas
+      </a>
+      <a href="#" class="side-link" data-section="perfil">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        Perfil del negocio
+      </a>
+    </nav>
+
+    <div class="side-foot">
+      <a href="../index.html" class="side-exit">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+        Ir a la tienda
+      </a>
+    </div>
+  </aside>
+
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+  <div class="main-wrap">
+    <header class="topbar">
+      <button class="icon-btn menu-toggle" id="menuToggle" aria-label="Abrir menú">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+
+      <div class="topbar-title">
+        <h1 id="pageTitle">Resumen</h1>
+        <p id="pageSubtitle">Vista general de tu negocio</p>
+      </div>
+
+      <div class="topbar-actions">
+        <button class="icon-btn notif-btn" id="notifBtn" aria-label="Notificaciones">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+          <span class="notif-dot" id="notifDot"></span>
+        </button>
+        <div class="topbar-user">
+          <div class="avatar" id="topbarUser">LP</div>
+          <div class="user-info">
+            <strong>La Pizzería</strong>
+            <span>Negocio verificado</span>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <div class="notif-panel" id="notifPanel">
+      <div class="notif-head">
+        <strong>Notificaciones</strong>
+        <button id="notifClear">Marcar leídas</button>
+      </div>
+      <div id="notifList"></div>
+    </div>
+
+    <main class="content">
+      <!-- RESUMEN -->
+      <section class="section active" id="section-resumen">
+        <div class="kpi-grid">
+          <div class="kpi-card">
+            <div class="kpi-icon purple">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+            </div>
+            <div class="kpi-info">
+              <span>Ventas hoy</span>
+              <strong id="kpiVentas">$0</strong>
+              <small class="up" id="kpiVentasTrend">+0% vs ayer</small>
+            </div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-icon green">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+            </div>
+            <div class="kpi-info">
+              <span>Pedidos hoy</span>
+              <strong id="kpiPedidos">0</strong>
+              <small id="kpiPedidosTrend">0 en curso</small>
+            </div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-icon gold">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            </div>
+            <div class="kpi-info">
+              <span>Calificación</span>
+              <strong id="kpiRating">4.8</strong>
+              <small id="kpiRatingCount">0 reseñas</small>
+            </div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-icon blue">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            </div>
+            <div class="kpi-info">
+              <span>Tiempo promedio</span>
+              <strong id="kpiTiempo">28 min</strong>
+              <small>Entrega</small>
+            </div>
+          </div>
+        </div>
+
+        <div class="resumen-grid">
+          <div class="panel-card chart-card">
+            <div class="panel-card-head">
+              <h2>Ventas de la semana</h2>
+              <span class="panel-chip">Últimos 7 días</span>
+            </div>
+            <div class="chart" id="salesChart"></div>
+            <div class="chart-legend">
+              <span><i class="dot purple"></i> Ventas</span>
+              <span><i class="dot light"></i> Pedidos</span>
+            </div>
+          </div>
+          <div class="panel-card">
+            <div class="panel-card-head">
+              <h2>Top productos</h2>
+              <a href="#" class="panel-link" data-section="productos">Ver todos</a>
+            </div>
+            <div class="top-products" id="topProducts"></div>
+          </div>
+        </div>
+
+        <div class="panel-card">
+          <div class="panel-card-head">
+            <h2>Pedidos recientes</h2>
+            <a href="#" class="panel-link" data-section="pedidos">Ver todos</a>
+          </div>
+          <div class="table-wrap">
+            <table class="data-table">
+              <thead>
+                <tr><th>Pedido</th><th>Cliente</th><th>Productos</th><th>Total</th><th>Estado</th><th></th></tr>
+              </thead>
+              <tbody id="recentOrders"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- PEDIDOS -->
+      <section class="section" id="section-pedidos">
+        <div class="filters">
+          <button class="filter-chip active" data-filter="all">Todos</button>
+          <button class="filter-chip" data-filter="nuevo">Nuevos</button>
+          <button class="filter-chip" data-filter="preparando">Preparando</button>
+          <button class="filter-chip" data-filter="camino">En camino</button>
+          <button class="filter-chip" data-filter="entregado">Entregados</button>
+          <button class="filter-chip" data-filter="cancelado">Cancelados</button>
+        </div>
+        <div class="orders-grid" id="ordersGrid"></div>
+      </section>
+
+      <!-- PRODUCTOS -->
+      <section class="section" id="section-productos">
+        <div class="section-actions">
+          <div class="filters">
+            <button class="filter-chip active" data-product-filter="all">Todos</button>
+            <button class="filter-chip" data-product-filter="pizza">Pizza</button>
+            <button class="filter-chip" data-product-filter="burgers">Hamburguesas</button>
+            <button class="filter-chip" data-product-filter="sushi">Sushi</button>
+            <button class="filter-chip" data-product-filter="healthy">Saludable</button>
+            <button class="filter-chip" data-product-filter="desserts">Postres</button>
+            <button class="filter-chip" data-product-filter="drinks">Bebidas</button>
+          </div>
+          <button class="btn btn-primary" id="btnAddProduct">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            Añadir producto
+          </button>
+        </div>
+        <div class="products-grid" id="productsGrid"></div>
+      </section>
+
+      <!-- PROMOCIONES -->
+      <section class="section" id="section-promociones">
+        <div class="section-actions">
+          <p class="section-hint">Crea ofertas que se muestren como badge en tu negocio.</p>
+          <button class="btn btn-primary" id="btnAddPromo">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            Nueva promoción
+          </button>
+        </div>
+        <div class="promos-grid" id="promosGrid"></div>
+      </section>
+
+      <!-- RESEÑAS -->
+      <section class="section" id="section-resenas">
+        <div class="reviews-summary panel-card">
+          <div class="reviews-big">
+            <strong id="reviewAvg">4.8</strong>
+            <div class="stars" id="reviewStars"></div>
+            <span id="reviewCount">0 reseñas</span>
+          </div>
+          <div class="reviews-bars" id="reviewBars"></div>
+        </div>
+        <div class="reviews-list" id="reviewsList"></div>
+      </section>
+
+      <!-- PERFIL -->
+      <section class="section" id="section-perfil">
+        <form class="profile-form" id="profileForm">
+          <div class="panel-card">
+            <div class="panel-card-head"><h2>Información del negocio</h2></div>
+            <div class="form-grid">
+              <label class="field"><span>Nombre del negocio</span><input type="text" id="bizName" value="La Pizzería" /></label>
+              <label class="field"><span>Categoría</span>
+                <select id="bizCategory">
+                  <option>Pizza</option><option>Hamburguesas</option><option>Sushi</option>
+                  <option>Saludable</option><option>Postres</option><option>Bebidas</option>
+                </select>
+              </label>
+              <label class="field"><span>Teléfono</span><input type="tel" id="bizPhone" value="+57 300 123 4567" /></label>
+              <label class="field"><span>Correo</span><input type="email" id="bizEmail" value="contacto@lapizzeria.com" /></label>
+              <label class="field full"><span>Dirección</span><input type="text" id="bizAddress" value="Calle 45 #12-30, Chapinero" /></label>
+              <label class="field full"><span>Descripción</span><textarea id="bizDesc" rows="3">Pizza artesanal con ingredientes frescos y masa madre.</textarea></label>
+            </div>
+          </div>
+
+          <div class="panel-card">
+            <div class="panel-card-head"><h2>Envío y horarios</h2></div>
+            <div class="form-grid">
+              <label class="field"><span>Costo de envío</span><input type="number" id="bizDelivery" value="0" min="0" /></label>
+              <label class="field"><span>Tiempo estimado</span><input type="text" id="bizTime" value="25-35 min" /></label>
+              <label class="field"><span>Hora de apertura</span><input type="time" id="bizOpen" value="10:00" /></label>
+              <label class="field"><span>Hora de cierre</span><input type="time" id="bizClose" value="22:00" /></label>
+            </div>
+            <div class="toggle-row">
+              <label class="toggle"><input type="checkbox" id="bizOpenNow" checked /><span class="toggle-track"></span><span>Abierto ahora</span></label>
+              <label class="toggle"><input type="checkbox" id="bizFreeDelivery" checked /><span class="toggle-track"></span><span>Envío gratis</span></label>
+            </div>
+          </div>
+
+          <div class="form-actions">
+            <button type="button" class="btn btn-ghost" id="profileReset">Cancelar</button>
+            <button type="submit" class="btn btn-primary">Guardar cambios</button>
+          </div>
+        </form>
+      </section>
+    </main>
+  </div>
+
+  <!-- MODAL PRODUCTO -->
+  <div class="modal" id="productModal">
+    <div class="modal-overlay" data-close="productModal"></div>
+    <div class="modal-panel">
+      <div class="modal-head">
+        <h2 id="productModalTitle">Nuevo producto</h2>
+        <button class="icon-btn" data-close="productModal" aria-label="Cerrar">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form id="productForm" class="form-grid">
+          <input type="hidden" id="productId" />
+          <label class="field full"><span>Nombre</span><input type="text" id="productName" required /></label>
+          <label class="field full"><span>Descripción</span><input type="text" id="productDesc" /></label>
+          <label class="field"><span>Precio</span><input type="number" id="productPrice" required min="0" /></label>
+          <label class="field"><span>Precio anterior (opcional)</span><input type="number" id="productOldPrice" min="0" /></label>
+          <label class="field"><span>Categoría</span>
+            <select id="productCategory">
+              <option value="pizza">Pizza</option><option value="burgers">Hamburguesas</option>
+              <option value="sushi">Sushi</option><option value="healthy">Saludable</option>
+              <option value="desserts">Postres</option><option value="drinks">Bebidas</option>
+            </select>
+          </label>
+          <label class="field"><span>Imagen (URL)</span><input type="url" id="productImage" /></label>
+          <div class="form-actions full">
+            <button type="button" class="btn btn-ghost" data-close="productModal">Cancelar</button>
+            <button type="submit" class="btn btn-primary">Guardar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL PROMO -->
+  <div class="modal" id="promoModal">
+    <div class="modal-overlay" data-close="promoModal"></div>
+    <div class="modal-panel">
+      <div class="modal-head">
+        <h2 id="promoModalTitle">Nueva promoción</h2>
+        <button class="icon-btn" data-close="promoModal" aria-label="Cerrar">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form id="promoForm" class="form-grid">
+          <input type="hidden" id="promoId" />
+          <label class="field full"><span>Título</span><input type="text" id="promoTitle" required /></label>
+          <label class="field full"><span>Descripción</span><input type="text" id="promoDesc" /></label>
+          <label class="field"><span>Badge</span><input type="text" id="promoBadge" placeholder="Ej: 2x1, Envío gratis" /></label>
+          <label class="field"><span>Descuento (%)</span><input type="number" id="promoDiscount" min="0" max="100" /></label>
+          <div class="form-actions full">
+            <button type="button" class="btn btn-ghost" data-close="promoModal">Cancelar</button>
+            <button type="submit" class="btn btn-primary">Guardar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="../script/panel.js"></script>
+</body>
+</html>
